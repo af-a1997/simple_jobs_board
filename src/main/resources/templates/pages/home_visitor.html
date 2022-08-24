@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Users' area</title>
+		
+		<th:block th:include="/shared/sh_head_setup"></th:block>
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="/shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="/shared/sh_navbar"></th:block>
+				
+				<div class="content">
+					<!-- <div class="row" sec:authorize="isAnonymous()"> -->
+					<div class=row>
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Welcome, guest user!</h4>
+								</div>
+								<div class="card-body">
+									<p>In this site, while you're a guest, you can take a look at the available jobs and view the profiles for each company, if you register, you can manage your CV, personal information and apply for available jobs.</p>
+									
+									<ul style="line-height: 1.5;">
+										<li><a href="/user/register">Sign up</a></li>
+										<li><a href="/user/login">Sign in</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class=row>
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">List of users</h4>
+								</div>
+								<div class="card-body">
+									<p><u style="color: yellow;">This is for testing only</u>. Click a name to edit the profile of the user:</p>
+									
+									<ul style="line-height: 1.5;">
+										<li th:each="usr: ${obj_users_all}"><a th:href="${'/user_man/profile/edit/' + usr.ruid}" th:text="${usr.name + ' ' + usr.surname}"></a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!--
+					<div class="row" sec:authorize="isAuthenticated()">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">You're already logged in!</h4>
+								</div>
+								<div class="card-body">
+									<p>There's no need to stay in this page, you can <a href="/user/logout">log out</a>, go to the <a href="/">home page</a> or do something else, try checking out the menu.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					-->
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="/shared/sh_js_imports"></th:block>
+		
+		<script>
+			$("ul.nav li#opt2").addClass("active");
+		</script>
+    </body>
+</html>

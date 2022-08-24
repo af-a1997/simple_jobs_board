@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Edit your company info</title>
+		
+		<th:block th:include="/shared/sh_head_setup"></th:block>
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="/shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="/shared/sh_navbar"></th:block>
+				
+				<div class=content>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h5 class="title">Edit your company info</h5>
+								</div>
+								<div class="card-body">
+									<p class=caption_notice>You may edit all the info about <span style="color: #9E9ED6;" th:text="${obj_cmp_name}"></span> in here.</p>
+									
+									<form method=POST enctype="multipart/form-data">
+										<div class="row">
+											<div class="col-md-6 pr-md-1">
+												<div class="form-group">
+													<label>Name</label>
+													<input class="form-control" placeholder="Enter your company's name" name=name th:required=required th:value="${obj_cmp_name}">
+												</div>
+											</div>
+											<div class="col-md-6 px-md-1">
+												<label for=file>Logo (optional update, <u style="color: yellow;">size cannot be greater than 4MB</u>)</label>
+												<input type=file class="form-control" id=file name=file accept="image/*">
+												<p id=submission_size_exceed class=err_near_input>Picture size cannot be greater than 4MB</p>
+												
+												<br />
+												<p>Your company's current logo (click to enlarge): <a th:href="@{/user_uploads/company_logos/{get_cmp_logo}(get_cmp_logo=${obj_cmp_logofn})}" target=_blank><img th:src="@{/user_uploads/company_logos/{get_cmp_logo}(get_cmp_logo=${obj_cmp_logofn})}" width=24px height=24px></a></p>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12 pr-md-1">
+												<div class="form-group">
+													<label>Description</label>
+													<textarea class="form-control" placeholder="Talk about your company, offered services and such in a summarized way" name=description th:required=required th:text="${obj_cmp_desc}"></textarea>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6 pr-md-1">
+												<div class="form-group">
+													<label>Building address</label>
+													<input class="form-control" placeholder="Enter the main building's street and number location" name=building_addr th:required=required th:value="${obj_cmp_bldad}">
+												</div>
+											</div>
+											<div class="col-md-6 pr-md-1">
+												<div class="form-group">
+													<label>E-mail</label>
+													<input class="form-control" placeholder="Enter your company's contact e-mail address" name=contact_email th:required=required th:value="${obj_cmp_cntemail}">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6 pr-md-1">
+												<div class="form-group">
+													<label>Contact phone (local)</label>
+													<input class="form-control" placeholder="Input the company's building phone number" name=contact_phone_local th:value="${obj_cmp_phl}">
+												</div>
+											</div>
+											<div class="col-md-6 pr-md-1">
+												<div class="form-group">
+													<label>Contact phone (mobile)</label>
+													<input class="form-control" placeholder="Input the company's mobile number" name=contact_phone_mob th:value="${obj_cmp_phm}">
+												</div>
+											</div>
+										</div>
+										<div class="card-footer">
+											<button id=id_btn_submit type=submit class="btn btn-fill btn-success">Update</button>
+											<button id=btn_act_cancel class="btn btn-fill btn-warning">Cancel</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="/shared/sh_js_imports"></th:block>
+		<th:block th:include="/shared/sh_handle_file_upload_size_limit"></th:block>
+		
+		<script>
+			$("ul.nav li#opt1").addClass("active");
+			
+			$("#btn_act_cancel").click(function(){
+				location.href = "/companies";
+			});
+		</script>
+    </body>
+</html>

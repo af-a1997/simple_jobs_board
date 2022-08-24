@@ -1,0 +1,33 @@
+<!--
+	Reminders:
+
+	* Add the ID "id_btn_submit" to the submit button of a form with file picker.
+	* Add the following code in the next line RIGHT AFTER the <file> element:
+		__________
+			<p id=submission_size_exceed class=err_near_input>Picture size cannot be greater than 4MB</p>
+		__________
+	* Add the following code somewhere suitable within the label for the <file> element:
+		__________
+			<u style="color: yellow;">size cannot be greater than 4MB</u>
+		__________
+-->
+
+<script>
+	// Turns out there's a limitation in Spring for file size upload, so I changed it in the application properties and used the same amount here, see < https://stackoverflow.com/a/39534619 >
+	$('#file').val(null);
+	$('#file').bind('change', function() {
+		if(this.files[0].size >= 4000000){
+			$('#id_btn_submit').prop('disabled', true);
+			$('#id_btn_submit').addClass('disabled');
+			
+			$("#submission_size_exceed").show();
+		}
+		else{
+			$('#id_btn_submit').prop('disabled', false);
+			$('#id_btn_submit').removeClass('disabled');
+			
+			$("#submission_size_exceed").hide();
+		}
+	});
+	// Size is measured in bytes. So if the selected picture is bigger than 4 million bytes, the form can't be submitted.
+</script>

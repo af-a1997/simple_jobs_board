@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Profile info</title>
+		
+		<th:block th:include="/shared/sh_head_setup"></th:block>
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="/shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="/shared/sh_navbar"></th:block>
+				
+				<div class="content">
+					<!--
+					<div class="row" sec:authorize="isAnonymous()">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Unauthorized access</h4>
+								</div>
+								<div class="card-body">
+									<p>Only companies are able to view user details, <a href="/companies">click here</a> for more information.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row" sec:authorize="hasRole('USER')">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Unauthorized access</h4>
+								</div>
+								<div class="card-body">
+									<p>Only companies are able to view user details, <a href="/companies">click here</a> for more information.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					-->
+					
+					<!-- <div class="row" sec:authorize="hasRole('COMPANY')"> -->
+					<div class=row>
+						<div class="col-md-12">
+							<div class="card card-user">
+								<div class="card-header">
+									<h4 class="card-title">User details</h4>
+								</div>
+								<div class="card-body">
+									<p class="card-text">
+										<div class="author">
+											<div class="block block-one"></div>
+											<div class="block block-two"></div>
+											<div class="block block-three"></div>
+											<div class="block block-four"></div>
+											
+											<a th:href="@{/user_uploads/profile_pictures/{get_img_addr}(get_img_addr=${obj_user_info_pfp})}">
+												<img class="avatar" th:src="@{/user_uploads/profile_pictures/{get_img_addr}(get_img_addr=${obj_user_info_pfp})}" alt="???">
+												<h5 class="title" th:text="${obj_user_info_name + ' ' + obj_user_info_surname}"></h5>
+											</a>
+										</div>
+									</p>
+									
+									<div class="card-description">
+										<ul>
+											<li><b>Biography:</b> <span th:text="${obj_user_info_bio}"></span></li>
+											<li><b>Address:</b> <span th:text="${obj_user_info_ha}"></span></li>
+											<li><b>Are they available for work?:</b> <span th:if="${obj_user_info_workavail == false}" th:text="No" style="color: #33f;"></span><span th:if="${obj_user_info_workavail == true}" th:text="Yes" style="color: #0f0;"></span></li>
+										</ul>
+									</div>
+								</div>
+								<div class="card-footer">
+									<div class="button-container">
+										<a th:href="${'mailto:' + obj_user_info_email}" class="btn btn-icon btn-round" title="Send e-mail">
+											<i class="fas fa-at"></i>
+										</a>
+										<a th:href="${'tel:' + obj_user_info_hp}" class="btn btn-icon btn-round" title="Contact to mobile phone">
+											<i class="fas fa-mobile-screen"></i>
+										</a>
+										<a th:href="${'tel:' + obj_user_info_mp}" class="btn btn-icon btn-round" title="Contact to house phone">
+											<i class="fas fa-phone"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="/shared/sh_js_imports"></th:block>
+		
+		<script>
+			$("ul.nav li#opt2").addClass("active");
+		</script>
+    </body>
+</html>

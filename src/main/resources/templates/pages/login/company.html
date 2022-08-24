@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Company login</title>
+		
+		<th:block th:include="/shared/sh_head_setup"></th:block>
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="/shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="/shared/sh_navbar"></th:block>
+				
+				<div class="content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Log in</h4>
+								</div>
+								<div class="card-body">
+									<form method=POST action="/companies/login/act">
+										<div class="row">
+											<div class="col-md-12 pr-md-1">
+												<div class="form-group">
+													<input type=number class=form-control placeholder="Enter your company's ID" name=cid th:required=required min=1>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12 pr-md-1">
+												<div class="form-group">
+													<input type=password class=form-control placeholder="Enter your company's password" name=password th:required=required>
+												</div>
+											</div>
+										</div>
+										
+										<div class="col-md-12 px-md-1">
+											<div class="form-group">
+												<button type=submit class="btn btn-fill btn-success">Log in</button>
+											</div>
+										</div>
+									
+										<p class=caption_notice>Don't have an account? <a href="/companies/register">Sign up here</a> and get yours up and running in seconds!</p>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="/shared/sh_js_imports"></th:block>
+		
+		<script>
+			$("ul.nav li#opt1").addClass("active");
+		</script>
+    </body>
+</html>

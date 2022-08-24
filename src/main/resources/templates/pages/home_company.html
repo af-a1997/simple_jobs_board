@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Companies</title>
+		
+		<th:block th:include="/shared/sh_head_setup"></th:block>
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="/shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="/shared/sh_navbar"></th:block>
+				
+				<div class="content">
+					<!-- <div class="row" sec:authorize="isAnonymous()"> -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">New here?</h4>
+								</div>
+								<div class="card-body">
+									<p>Companies can register to post their job vacancies and manage them, <a href="./companies/register">sign up</a> or <a href="./companies/login">log in</a> to get started.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- <div class="row" sec:authorize="hasRole('COMPANY')"> -->
+					<div class=row>
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Your company is logged in</h4>
+								</div>
+								<div class="card-body">
+									<p>Here's what you can do:</p>
+									
+									<ul style="line-height: 1.5;">
+										<li><b style="color: #faa;">Testing:</b> <a href="/companies/register">register company</a>.</li>
+										<li><a href="/company_man/jobs/post">Post a job offer</a>.</li>
+										<!-- <li><a href="/company_man/profile/edit">Edit company info</a>.</li> -->
+										<li><a href="/">Go to home page</a>.</li>
+										<!-- <li><a href="./logout">Log out</a>.</li> -->
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="alert alert-danger" role=alert>Edit company for testing only, because user/company sessions don't work yet.</div>
+								
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">Directory of companies</h4>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table tablesorter">
+									<thead class=text-primary>
+										<tr>
+											<th width=40px></th>
+											<th>Name</th>
+											<th colspan=3>Contact methods</th>
+											<th>More info</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="companies_list:${obj_all_companies}">
+											<td><a th:href="@{/user_uploads/company_logos/{get_cmp_logo}(get_cmp_logo=${companies_list.logo_filename})}" target=_blank><img th:src="@{/user_uploads/company_logos/{get_cmp_logo}(get_cmp_logo=${companies_list.logo_filename})}" width=24px height=24px /></a></td>
+											<td th:text="${companies_list.name}"></td>
+											<td><b class=subt>E-mail</b><br /> <a th:if="${companies_list.contact_email != null}" th:href="${'mailto:' + companies_list.contact_email}" th:text="${companies_list.contact_email}"></a></td>
+											<td><b class=subt>Mobile</b><br /> <a th:if="${companies_list.contact_phone_mob != null}" th:href="${'tel:' + companies_list.contact_phone_mob}" th:text="${companies_list.contact_phone_mob}"></a></td>
+											<td><b class=subt>Local</b><br /> <a th:if="${companies_list.contact_phone_local != null}" th:href="${'tel:' + companies_list.contact_phone_local}" th:text="${companies_list.contact_phone_local}"></a></td>
+											<td><a th:href="@{/companies/details/{cid}(cid=${companies_list.cid})}">Company details</a> or <a th:href="@{/jobs/browse/by_company/{cid}(cid=${companies_list.cid})}">view their job offers</a> | <b style="color: #faa;">Testing:</b> <a th:href="@{/company_man/profile/edit/{cid}(cid=${companies_list.cid})}">Edit</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="/shared/sh_js_imports"></th:block>
+		
+		<script>
+			$("ul.nav li#opt1").addClass("active");
+		</script>
+    </body>
+</html>

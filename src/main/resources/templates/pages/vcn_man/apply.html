@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Apply to job</title>
+		
+		<th:block th:include="/shared/sh_head_setup"></th:block>
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="/shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="/shared/sh_navbar"></th:block>
+				
+				<div class=content>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h5 class="title">Apply to job</h5>
+								</div>
+								<div class="card-body">
+									<p class=caption_notice>Would you like to register for the job &laquo;<a th:href="${'/jobs/details/' + job_info_idno}" th:text="${job_info_name}"></a>&raquo;?</p>
+									<br />
+			
+									<form method=POST>
+										<label for=user_idno><b style="color: #faa;">Testing:</b> enter valid user identifier number <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=jobs_board_db&table=registered_users" target=_blank>from database</a> below:</label>
+										<input type=number min=1 name=user_idno />
+
+										<br /><br />
+			
+										<input type=checkbox id=id_apply_confirm name=fln_chk_confirm />
+										<label for=fln_chk_confirm>I confirm that I wish to apply for the job and that my profile is up-to-date</label>
+										
+										<br /><br />
+
+										<button type=submit class="btn btn-success disabled" id=id_appl_confirm disabled>Yes</button>
+										<a href="/jobs" class="btn btn-danger">No</a>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="/shared/sh_js_imports"></th:block>
+		
+		<script>
+			$("ul.nav li#opt3").addClass("active");
+			
+			$('#id_apply_confirm').change(function(){
+				if(this.checked){
+					$('#id_appl_confirm').prop('disabled', false);
+					$('#id_appl_confirm').removeClass('disabled');
+				}
+				else{
+					$('#id_appl_confirm').prop('disabled', true);
+					$('#id_appl_confirm').addClass('disabled');
+				}
+			});
+		</script>
+    </body>
+</html>

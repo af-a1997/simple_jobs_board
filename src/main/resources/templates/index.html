@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Jobs finder</title>
+		
+		<th:block th:include="shared/sh_head_setup"></th:block>
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="shared/sh_navbar"></th:block>
+				
+				<div class="content">
+					<p>Welcome to the jobs finder, in here you can apply for any job that you may be interested into after registering as a user, or post jobs as a company.</p>
+					
+					<br />
+					
+					<p>To get started, use the menu to browse the site sections.</p>
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="shared/sh_js_imports"></th:block>
+		
+		<script>
+			$("ul.nav li#opt0").addClass("active");
+		</script>
+    </body>
+</html>

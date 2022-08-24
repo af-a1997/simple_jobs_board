@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>List applicants to job</title>
+		
+		<th:block th:include="/shared/sh_head_setup"></th:block>
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="/shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="/shared/sh_navbar"></th:block>
+				
+				<div class="content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">People that applied to the &laquo;<a th:href="${'/jobs/details/' + appll_info_vcidno}" th:text="${appll_info_vcname}"></a>&raquo; job.</h4>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table tablesorter">
+											<thead class=text-primary>
+												<tr>
+													<th style="width: 40px;"></th>
+													<th>Applicant name</th>
+													<th>Applied at time</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="fe_apdata:${appll_info_aplist}" th:if="${fe_apdata.job_id == appll_info_vcidno}">
+													<td><a th:each="fe_rudata: ${appll_info_rudata}" th:if="${fe_rudata.ruid == fe_apdata.jaid}" th:href="@{/user_uploads/profile_pictures/{get_user_pfp}(get_user_pfp=${fe_rudata.profpic_filename})}" target=_blank><img th:src="@{/user_uploads/profile_pictures/{get_user_pfp}(get_user_pfp=${fe_rudata.profpic_filename})}" width=24px height=24px /></a></td>
+													<td><span th:each="fe_rudata: ${appll_info_rudata}" th:if="${fe_rudata.ruid == fe_apdata.jaid}" th:text="${fe_rudata.name + ' ' +	fe_rudata.surname}"></span></td>
+													<td><span th:each="fe_rudata: ${appll_info_rudata}" th:if="${fe_rudata.ruid == fe_apdata.jaid}"  th:text="${fe_apdata.dt_apply}"></span></td>
+													<td><a th:each="fe_rudata: ${appll_info_rudata}" th:if="${fe_rudata.ruid == fe_apdata.jaid}" th:href="@{/user/profile/{uid}(uid=${fe_rudata.ruid})}">View profile</a></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="/shared/sh_js_imports"></th:block>
+		
+		<script>
+			$("ul.nav li#opt3").addClass("active");
+		</script>
+    </body>
+</html>

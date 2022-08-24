@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Post a job vacancy</title>
+		
+		<th:block th:include="/shared/sh_head_setup"></th:block>
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="/shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="/shared/sh_navbar"></th:block>
+				
+				<div class=content>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h5 class="title">Post a job vacancy</h5>
+								</div>
+								<div class="card-body">
+									<p class=caption_notice>Fill all the fields regarding the job offer you're going to post:</p>
+									
+									<form method=POST enctype="multipart/form-data">
+										<div class="row">
+											<div class="col-md-6 pr-md-1">
+												<div class="form-group">
+													<label>Name</label>
+													<input class="form-control" placeholder="Enter your job's short description, name or title" name=name th:required=required>
+												</div>
+											</div>
+											<div class="col-md-6 pr-md-1">
+												<!-- Somehow, I managed to send the vacancy status as an integer, the idea of handling that on the client side came up from this answer: https://stackoverflow.com/a/37359889 -->
+												<div class="form-group">
+													<br /> &emsp;
+													<input type=checkbox id=id_vacancy_status>
+													<label for=vacancy_status>Accepting applications</label>
+													
+													<input type=hidden id=id_vacancy_status_fetcher name=vacancy_status>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12 pr-md-1">
+												<div class="form-group">
+													<label>Description</label>
+													<textarea class="form-control" placeholder="Summarize what's your job about in here..." name=job_description th:required=required></textarea>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-4 pr-md-1">
+												<div class="form-group">
+													<label>Available slots</label>
+													<input type=number class="form-control" placeholder="Enter maximum of people that can apply" name=recruitment_slots th:required=required min=0>
+												</div>
+											</div>
+											<div class="col-md-4 pr-md-1">
+												<div class="form-group">
+													<label>Beginning period</label>
+													<input class="form-control" placeholder="Choose when recruitment begins" name=dt_recruitment_begin th:required=required id=fli_bgn_rcpd>
+												</div>
+											</div>
+											<div class="col-md-4 pr-md-1">
+												<div class="form-group">
+													<label>End period</label>
+													<input class="form-control" placeholder="Choose when recruitment is ending" name=dt_recruitment_end th:required=required id=fli_end_rcpd>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6 pr-md-1">
+												<div class="form-group">
+													<label>Job type</label>
+													<select class="form-control" name=category th:required=required>
+														<option value="" selected>Select a job type...</option>
+														<option th:each="jci: ${o_jobcat_receive}" th:value="${jci}" th:text="${jci}"></option>
+													</select>
+												</div>
+											</div>
+											<div class="col-md-6 pr-md-1">
+												<div class="form-group">
+													<label>Salary (USD/mo)</label>
+													<input type=number class="form-control" placeholder="Enter salary per month (USD only)" name=salary th:required=required step=.01 min=0>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12 px-md-1">
+												<label for=file>Terms document, <u style="color: yellow;">size cannot be greater than 4MB</u></label>
+												<input type=file class="form-control" id=file name=file accept=".pdf,.docx,.doc,.odt,.txt">
+												<p id=submission_size_exceed class=err_near_input>Document size cannot be greater than 4MB</p>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12 px-md-1">
+												<label for=publisher><b style="color: #faa;">Testing:</b> enter valid company identifier number <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=jobs_board_db&table=company" target=_blank>from database</a></label>
+												<input class=form-control type=number min=1 name=publisher />
+											</div>
+										</div>
+										<div class="card-footer">
+											<!-- TODO: placeholder to get company ID from session data. -->
+											<!-- <input type=hidden value=1 name=publisher> -->
+											
+											<button id=id_btn_submit type=submit class="btn btn-fill btn-success">Post</button>
+											<input type=reset class="btn btn-fill btn-warning" />
+											<button id=btn_act_cancel class="btn btn-fill btn-warning">Cancel</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="/shared/sh_js_imports"></th:block>
+		<th:block th:include="/shared/sh_jquery_ui_imports"></th:block>
+		<th:block th:include="/shared/sh_handle_file_upload_size_limit"></th:block>
+		
+		<script>
+			$("ul.nav li#opt3").addClass("active");
+			
+			$("#btn_act_cancel").click(function(){
+				location.href = "/jobs";
+			});
+			
+			$().ready(function(){
+				$("#id_vacancy_status").prop("checked",false);
+				$("#id_vacancy_status_fetcher").val(0);
+			});
+			
+			$("#id_vacancy_status").change(function(){
+				if(this.checked){
+					$("#id_vacancy_status_fetcher").val(1);
+				}
+				else{
+					$("#id_vacancy_status_fetcher").val(0);
+				}
+			});
+			
+			$(function(){
+				$("input[id$='_rcpd']").datetimepicker({
+					format: "Y-m-d H:i:s",
+					theme: "dark"
+				});
+			});
+		</script>
+    </body>
+</html>

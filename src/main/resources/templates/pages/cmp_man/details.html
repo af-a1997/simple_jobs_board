@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Company details</title>
+		
+		<th:block th:include="/shared/sh_head_setup"></th:block>
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="/shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="/shared/sh_navbar"></th:block>
+					
+					<div class=content>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card card-user">
+									<div class="card-header">
+										<h4 class="card-title">Company details</h4>
+									</div>
+									<div class="card-body">
+										<p class="card-text">
+											<div class="author">
+												<div class="block block-one"></div>
+												<div class="block block-two"></div>
+												<div class="block block-three"></div>
+												<div class="block block-four"></div>
+												
+												<a th:href="@{/user_uploads/company_logos/{get_cmp_logo}(get_cmp_logo=${obj_cmp_info.logo_filename})}" th:title="${obj_cmp_info.name}">
+													<img class="avatar" th:src="@{/user_uploads/company_logos/{get_cmp_logo}(get_cmp_logo=${obj_cmp_info.logo_filename})}" alt="???">
+													<h5 class="title" th:text="${obj_cmp_info.name}"></h5>
+												</a>
+											</div>
+										</p>
+										
+										<div class="card-description">
+											<ul>
+												<li><b>Description:</b> [(${obj_cmp_info.description})]</li>
+												<li><b>Contact e-mail address:</b> <a th:href="${'mailto:' + obj_cmp_info.contact_email}" th:text="${obj_cmp_info.contact_email}"></a></li>
+												<li><b>Building location/address:</b> [(${obj_cmp_info.building_addr})]</li>
+											</ul>
+										</div>
+									</div>
+									<div class="card-footer">
+										<div class="button-container">
+											<a href="/companies" class="btn btn-icon btn-round" title="Head back to companies list">
+												<i class="fas fa-arrow-left"></i>
+											</a>
+											<a th:href="${'/jobs/browse/by_company/' + obj_cmp_info.cid}" class="btn btn-icon btn-round" title="List all jobs posted by this company">
+												<i class="fas fa-crosshairs"></i>
+											</a>
+											<a th:href="${'tel:' + obj_cmp_info.contact_phone_mob}" class="btn btn-icon btn-round" title="Contact to mobile phone">
+												<i class="fas fa-mobile-screen"></i>
+											</a>
+											<a th:href="${'tel:' + obj_cmp_info.contact_phone_local}" class="btn btn-icon btn-round" title="Contact to building phone">
+												<i class="fas fa-phone"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="/shared/sh_js_imports"></th:block>
+		
+		<script>
+			$("ul.nav li#opt1").addClass("active");
+		</script>
+    </body>
+</html>

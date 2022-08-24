@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Find job vacancies</title>
+		
+		<th:block th:include="/shared/sh_head_setup"></th:block>
+		<link th:href="@{/extras/jquery-ui/jquery-ui.min.css}" rel=stylesheet />
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="/shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="/shared/sh_navbar"></th:block>
+				
+				<div class="content">
+					<!--
+					<div class="alert alert-success" role=alert th:if="$(not #strings.isEmpty(user_applied))">
+						<span th:text="${user_applied}"></span>
+					</div>
+					<div class="alert alert-danger" role=alert th:if="$(not #strings.isEmpty(err_user_not_applied))">
+						<span th:text="${err_user_not_applied}"></span>
+					</div>
+					-->
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h5 class="title">Search jobs</h5>
+								</div>
+								<div class="card-body">
+									<!-- Render HTML that's on the Spring Controller in case the user is searching something, to make it easier to return to the full jobs listing. -->
+									<p th:if="${obj_userisbrowsing != null}">[(${obj_userisbrowsing})]</p>
+									
+									<p class=caption_notice>Feel free to look up jobs by name (or part of it):</p>
+									
+									<form method=POST action="/jobs/browse">
+										<div class="row">
+											<div class="col-md-10 pr-md-1">
+												<div class="form-group">
+													<input type=text class=form-control placeholder="Input job's name (or part of it) here..." name=fln_search_vcn_namelike th:required=required>
+												</div>
+											</div>
+											<div class="col-md-2 px-md-1">
+												<button type=submit class="btn btn-fill btn-success">Search</button>
+											</div>
+										</div>
+									</form>
+									
+									<p class=caption_notice>You may also browse by job category or company:</p>
+										
+									<div class="row">
+										<div class="col-md-3 pr-md-1">
+											<div class="form-group">
+												<select class=form-control id=id_field_jc name=fln_search_vcn_cat th:required=required>
+													<option value="" selected>Select a category...</option>
+													<option th:each="jci: ${#numbers.sequence(0,3)}" th:value="${jci}" th:text="${obj_vcn_jobcat_labels[jci]}"></option>
+												</select>
+											</div>
+										</div>
+										<div class="col-md-3 px-md-1">
+											<button id=btn_act_filter_by_jobcat class="btn btn-fill btn-success">Filter</button>
+										</div>
+										<div class="col-md-3 pr-md-1">
+											<div class="form-group">
+												<select class=form-control id=id_field_cid name=fln_search_vcn_cat th:required=required>
+													<option value="" selected>Select a company...</option>
+													<option th:each="cmp: ${obj_vcn_cmp_list}" th:value="${cmp.cid}" th:text="${cmp.name}"></option>
+												</select>
+											</div>
+										</div>
+										<div class="col-md-3 px-md-1">
+											<button id=btn_act_filter_by_cmp class="btn btn-fill btn-success">Filter</button>
+										</div>
+									</div>
+									
+									<div id=err_not_selected_category title="No category selected">
+										<p>Choose a category and try again.</p>
+									</div>
+									<div id=err_not_selected_company title="No company selected">
+										<p>Choose a company and try again.</p>
+									</div>
+								</div>
+							</div>
+								
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Available <span th:if="${obj_vcn_jobcat_cc != null}" style="text-transform: lowercase;">[(${obj_vcn_jobcat_cc})]</span> jobs<span th:if="${obj_vcn_cmp_name != null}" th:text="${' by ' + obj_vcn_cmp_name}"></span></h4>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table tablesorter">
+											<thead class=text-primary>
+												<tr>
+													<th>Post</th>
+													<th>Recruiter</th>
+													<th>Availability</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="published_vacancies:${obj_pv}" th:if="${published_vacancies.vacancy_status == 1}">
+													<!-- <td><a th:href="@{/user_uploads/company_logos/{get_img_addr}(get_img_addr=${published_vacancies.logo_filename})}" target=_blank><img th:src="@{/user_uploads/company_logos/{get_img_addr}(get_img_addr=${published_vacancies.logo_filename})}" width=24px height=24px /></a></td> -->
+													<td th:text="${published_vacancies.name}"></td>
+													<td><a th:href="${'/companies/details/' + published_vacancies.publisher}"><span th:each="cmp_l: ${obj_vcn_cmp_list}" th:if="${cmp_l.cid == published_vacancies.publisher}" th:text="${cmp_l.name}"></span></a></td>
+													<td th:text="${published_vacancies.recruitment_slots}"></td>
+													<!-- <td><a th:href="@{/jobs/details/{vid}(vid=${published_vacancies.vid})}">View details</a><span sec:authorize="hasRole('USER')"> or <a th:href="@{/user_man/apply_to_job/{vid}(vid=${published_vacancies.vid})}">apply</a></span></td> -->
+													<td><a th:href="@{/jobs/details/{vid}(vid=${published_vacancies.vid})}">View details</a> or <a th:href="@{/user_man/apply_to_job/{vid}(vid=${published_vacancies.vid})}">apply</a> | <b style="color: #faa;">Testing:</b> <a th:href="@{/company_man/jobs/applicants/{cid}(cid=${published_vacancies.vid})}">List applicants</a></td>
+												</tr>
+											</tbody>
+										</table>
+										
+										<!-- <button class="btn btn-fill btn-success" id=btn_post_job sec:authorize="hasRole('COMPANY')">Post a job</button> -->
+										<button class="btn btn-fill btn-success" id=btn_post_job>Post a job</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="/shared/sh_js_imports"></th:block>
+		<script th:src="@{/extras/jquery-ui/jquery-ui.min.js}"></script>
+		
+		<script>
+			$("ul.nav li#opt3").addClass("active");
+			
+			$("#btn_post_job").click(function(){
+				location.href = "/company_man/jobs/post";
+			});
+			
+			$("#err_not_selected_category").dialog({ autoOpen: false });
+			$("#err_not_selected_company").dialog({ autoOpen: false });
+			
+			$("#btn_act_filter_by_jobcat").click(function(){
+				var catid = $("#id_field_jc option:selected").val();
+				
+				if(catid != ""){
+					location.href = "/jobs/browse/by_category/" + catid;
+				}
+				else{
+					$("#err_not_selected_category").dialog("open");
+				}
+			});
+			
+			$("#btn_act_filter_by_cmp").click(function(){
+				var cid = $("#id_field_cid option:selected").val();
+				
+				if(cid != ""){
+					location.href = "/jobs/browse/by_company/" + cid;
+				}
+				else{
+					$("#err_not_selected_company").dialog("open");
+				}
+			});
+		</script>
+    </body>
+</html>

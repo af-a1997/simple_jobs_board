@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Vacancy details</title>
+		
+		<th:block th:include="/shared/sh_head_setup"></th:block>
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="/shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="/shared/sh_navbar"></th:block>
+					
+					<div class=content>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card card-user">
+									<div class="card-header">
+										<h4 class="card-title">Vacancy details</h4>
+									</div>
+									<div class="card-body">
+										<p class="card-text">
+											<div class="author">
+												<div class="block block-one"></div>
+												<div class="block block-two"></div>
+												<div class="block block-three"></div>
+												<div class="block block-four"></div>
+												
+												<a th:href="${'/companies/details/' + vcn_info_pubid}" th:title="${'Published by: ' + vcn_exin_cmp_name}">
+													<img class="avatar" th:src="@{/user_uploads/company_logos/{get_cmp_logo}(get_cmp_logo=${vcn_exin_cmp_logofn})}" alt="???">
+													<h5 class="title" th:text="${vcn_info_name}"></h5>
+												</a>
+											</div>
+										</p>
+										
+										<div class="card-description">
+											<ul>
+												<li><b>Publisher:</b> <a th:href="${'/companies/details/' + vcn_info_pubid}" th:text="${vcn_exin_cmp_name}"></a></li>
+												<li><b>Description:</b> [(${vcn_info_jd})]</li>
+												<li><b>Recruitment beginning timestamp:</b> [(${vcn_info_recruit_begin})]</li>
+												<li><b>Recruitment ending timestamp:</b> [(${vcn_info_recruit_end})]</li>
+												<li><b>Job category:</b> [(${vcn_info_cat})]</li>
+												<li><b>Salary (USD/mo):</b> <span th:if="${vcn_info_sal >= 0}" th:text="${vcn_info_sal}"></span><span th:if="${vcn_info_sal < 0}" style="color: yellow;"><i>Not specified</i></span></li>
+												<li><b>Available slots:</b> [(${vcn_info_recruitables})]</li>
+												<li><b>Vacancy status:</b> <span th:if="${vcn_info_vcnst == 0}" style="color: #FF7F7F;">Not active</span> <span th:if="${vcn_info_vcnst == 1}" style="color: #00FF00;">Active</span></li>
+											</ul>
+										</div>
+									</div>
+									<div class="card-footer">
+										<div class="button-container">
+											<a href="/jobs" class="btn btn-icon btn-round" title="Back to jobs list">
+												<i class="fas fa-arrow-left"></i>
+											</a>
+											<a th:href="@{/user_uploads/job_docs/{get_pdf_fn}(get_pdf_fn=${vcn_info_apt})}" class="btn btn-icon btn-round" title="Show job terms" target=_blank>
+												<i class="fas fa-file-pdf"></i>
+											</a>
+											<!-- <a th:href="${'/user_man/apply_to_job/' + vcn_info_pubid}" class="btn btn-icon btn-round" title="Apply to job" sec:authorize="hasRole('USER')"> -->
+											<a th:href="${'/user_man/apply_to_job/' + vcn_info_pubid}" class="btn btn-icon btn-round" title="Apply to job">
+												<i class="fas fa-check"></i>
+											</a>
+											<!-- <a href="/user_area" class="btn btn-icon btn-round" title="Sign in or sign up as user to apply" sec:authorize="isAnonymous()"> -->
+											<a href="/user_area" class="btn btn-icon btn-round" title="Sign in or sign up as user to apply">
+												<i class="fas fa-arrow-right-to-bracket"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="/shared/sh_js_imports"></th:block>
+		
+		<script>
+			$("ul.nav li#opt3").addClass("active");
+		</script>
+    </body>
+</html>

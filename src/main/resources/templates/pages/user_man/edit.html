@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Edit your profile</title>
+		
+		<th:block th:include="/shared/sh_head_setup"></th:block>
+    </head>
+
+    <body>
+        <div class="wrapper">
+			<th:block th:include="/shared/sh_sidebar"></th:block>
+			
+            <div class="main-panel">
+				<th:block th:include="/shared/sh_navbar"></th:block>
+				
+				<div class=content>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h5 class="title">Edit profile</h5>
+								</div>
+								<div class="card-body">
+									<p class=caption_notice>You may edit all the info about you here, you can also update your profile picture if you like.</p>
+									
+									<form method=POST enctype="multipart/form-data">
+										<div class="row">
+											<div class="col-md-6 pr-md-1">
+												<div class="form-group">
+													<label>Name</label>
+													<input class="form-control" placeholder="Enter your first name" name=name th:required=required th:value="${obj_user_info_name}">
+												</div>
+											</div>
+											<div class="col-md-6 pr-md-1">
+												<div class="form-group">
+													<label>Surname</label>
+													<input class="form-control" placeholder="Enter your last name" name=surname th:required=required th:value="${obj_user_info_surname}">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-4 pr-md-1">
+												<div class="form-group">
+													<label>Username</label>
+													<input class="form-control" placeholder="Enter the username to log you in the site" name=username th:required=required th:value="${obj_user_info_username}">
+												</div>
+											</div>
+											<div class="col-md-4 pr-md-1">
+												<div class="form-group">
+													<label>E-mail</label>
+													<input class="form-control" placeholder="Enter your e-mail address" name=email th:required=required th:value="${obj_user_info_email}">
+												</div>
+											</div>
+											<div class="col-md-4 pr-md-1">
+												<div class="form-group">
+													<label>Password</label>
+													<input type=password class="form-control" placeholder="Enter your password" name=password th:required=required th:value="${obj_user_info_pwd}">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6 pr-md-1">
+												<div class="form-group">
+													<label>Mobile phone</label>
+													<input class="form-control" placeholder="Enter your mobile phone number" name=mob_phone th:required=required th:value="${obj_user_info_mp}">
+												</div>
+											</div>
+											<div class="col-md-6 pr-md-1">
+												<div class="form-group">
+													<label>Home phone</label>
+													<input class="form-control" placeholder="Enter your home phone number" name=home_phone th:required=required th:value="${obj_user_info_hp}">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12 pr-md-1">
+												<div class="form-group">
+													<label>Home address</label>
+													<input class="form-control" placeholder="Enter your address, along with residence city" name=home_addr th:required=required th:value="${obj_user_info_ha}">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12 pr-md-1">
+												<div class="form-group">
+													<label>Biography</label>
+													<textarea class="form-control" placeholder="Write about yourself in here..." name=biography th:required=required th:text="${obj_user_info_bio}"></textarea>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12 pr-md-1">
+												<div class="form-group">
+													<label>Are you looking for jobs in this moment?</label>
+													<select class="form-control" name=available_to_work th:required=required>
+														<option value=1 th:selected="${obj_user_info_workavail == 1}">Yes</option>
+														<option value=0 th:selected="${obj_user_info_workavail == 0}">No</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6 px-md-1">
+												<label for=file>Profile picture (optional update, <u style="color: yellow;">size cannot be greater than 4MB</u>)</label>
+												<input type=file class="form-control" id=file name=file accept="image/*">
+												<p id=submission_size_exceed class=err_near_input>Picture size cannot be greater than 4MB</p>
+												
+												<br />
+												<p>Your current profile picture (click to enlarge): <a th:href="@{/user_uploads/profile_pictures/{get_pfp_fn}(get_pfp_fn=${obj_user_info_pfp})}" target=_blank><img th:src="@{/user_uploads/profile_pictures/{get_pfp_fn}(get_pfp_fn=${obj_user_info_pfp})}" width=24px height=24px></a></p>
+											</div>
+										</div>
+										<div class="card-footer">
+											<button id=id_btn_submit type=submit class="btn btn-fill btn-success">Update</button>
+											<button id=btn_act_cancel class="btn btn-fill btn-warning">Cancel</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+		
+		<th:block th:include="/shared/sh_js_imports"></th:block>
+		<th:block th:include="/shared/sh_handle_file_upload_size_limit"></th:block>
+		
+		<script>
+			$("ul.nav li#opt2").addClass("active");
+			
+			$("#btn_act_cancel").click(function(){
+				location.href = "/user_area";
+			});
+		</script>
+    </body>
+</html>
